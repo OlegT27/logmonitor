@@ -26,6 +26,7 @@ public class ThreadTask implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("parsing :" + inputPath);
         List<InputFileRow> rawData = new CsvReader().readData(inputPath);
 
         Map<String, UserActivity> activityMap = InputDataPreparation.mergeLinks(rawData);

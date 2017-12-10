@@ -1,7 +1,9 @@
 package org.company.monitor;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
 public class PropertyLoader {
@@ -18,16 +20,16 @@ public class PropertyLoader {
     }
 
 
-    /*public void writeProp() {
+    public void writeProp() {
 
         properties.setProperty("inputPath", "D://in");
         properties.setProperty("outputPath", "D://out");
-        try (OutputStream out = new FileOutputStream()) {
+        try (OutputStream out = new FileOutputStream("config.properties")) {
             properties.store(out,"paths");
         } catch(IOException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     private void readProp() {
 
