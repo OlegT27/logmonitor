@@ -2,7 +2,7 @@ package org.company.monitor;
 
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -21,7 +21,7 @@ public class DirectoryWatcher extends Observable implements Runnable {
 
     public void startMonitor() {
         WatchKey key;
-        List<String> files = new LinkedList<>();
+        List<String> files = new ArrayList<>();
         try {
             while ((key = watchService.take()) != null) {
                 for (WatchEvent<?> event : key.pollEvents()) {

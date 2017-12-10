@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class InputDataPreparation {
 
-    // формируем юзера с одной строки лога
+    // Read bean produced by CvsReader
     private static UserActivity prepareUser(InputFileRow row) {
         UserActivity user = new UserActivity();
         user.setUserID(row.getUserId());
@@ -21,7 +21,7 @@ public class InputDataPreparation {
         return user;
     }
 
-    // разные времена для одной урлки
+    //Solves "half-open" problem for session duration
     private static List<URLInfo> parseUrlDuration(InputFileRow row) {
         List<URLInfo> list = new ArrayList<>();
         SessionDurationResolver resolver = new SessionDurationResolver(row.getTimestamp(), row.getDuration());
@@ -33,6 +33,7 @@ public class InputDataPreparation {
         return list;
     }
 
+    // Merges records, grouping by user
     public static Map<String, UserActivity> mergeLinks(List<InputFileRow> rawData) {
         Map<String, UserActivity> temporalStorage = new HashMap();
         for (InputFileRow row :

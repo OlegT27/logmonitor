@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class PathsConsumer implements Runnable {
-    private BlockingQueue<String> drop;
+    private final BlockingQueue<String> drop;
     private String inputFolder;
     private String outputFolder;
 
@@ -20,9 +20,13 @@ public class PathsConsumer implements Runnable {
     public void run() {
         ExecutorService threadPool = Executors.newFixedThreadPool(10);
         while (true) {
-            String fileName = drop.poll();
-            if (fileName != null)
-                threadPool.submit(new ThreadTask
+            String fileName = null;
+            try {
+                fileName = drop.take();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            threadPool.submit(new ThreadTask
                         (inputFolder+"//"+fileName,outputFolder+"//avg_"+fileName));
         }
     }

@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 public class OutputDataPreparation {
 
+    //prepares data for beans which cvsWriter needed
     public static Map<LocalDate, List<OutputBean>> mapToOutput(Map<String, UserActivity> map) {
 
         Map<LocalDate, List<OutputBean>> outMap = new HashMap<>();
@@ -32,6 +33,7 @@ public class OutputDataPreparation {
         return outMap;
     }
 
+    // Counts average time for each url
     public static UserActivity countAverageDuration(UserActivity userActivity) {
         List<URLInfo> list = userActivity.getUrlList();
         List<URLInfo> modifiedList = list.stream().distinct().collect(Collectors.toList());

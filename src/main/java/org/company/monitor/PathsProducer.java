@@ -6,14 +6,16 @@ import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 
 public class PathsProducer implements Runnable, Observer {
-    private BlockingQueue<String> drop;
-    private Queue<String> messages = new LinkedList<>(getFiles("D://in"));
+    private final BlockingQueue<String> drop;
+    private Queue<String> messages;
     private DirectoryWatcher watcher;
 
 
     public PathsProducer(BlockingQueue<String> d, DirectoryWatcher watcher) {
         this.drop = d;
         this.watcher = watcher;
+        Properties properties = new PropertyLoader().getProperties();
+        this.messages = new LinkedList<>(getFiles(properties.getProperty("inputPath")));
     }
 
     @Override
@@ -32,9 +34,15 @@ public class PathsProducer implements Runnable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        LinkedList<String> changedFiles = (LinkedList<String>) arg;
-        this.messages.addAll(changedFiles);
+        try {
+            for (String s : ((List<String>) arg)) {
+                drop.put(s);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
+
 
     private List<String> getFiles(String path) {
         File myFolder = new File(path);
